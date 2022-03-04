@@ -16,135 +16,115 @@
         "id": "CdkWorkshopStack",
         "path": "CdkWorkshopStack",
         "children": {
-          "CdkWorkshopQueue": {
-            "id": "CdkWorkshopQueue",
-            "path": "CdkWorkshopStack/CdkWorkshopQueue",
+          "HelloHandler": {
+            "id": "HelloHandler",
+            "path": "CdkWorkshopStack/HelloHandler",
             "children": {
-              "Resource": {
-                "id": "Resource",
-                "path": "CdkWorkshopStack/CdkWorkshopQueue/Resource",
-                "attributes": {
-                  "aws:cdk:cloudformation:type": "AWS::SQS::Queue",
-                  "aws:cdk:cloudformation:props": {
-                    "visibilityTimeout": 300
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_sqs.CfnQueue",
-                  "version": "2.15.0"
-                }
-              },
-              "Policy": {
-                "id": "Policy",
-                "path": "CdkWorkshopStack/CdkWorkshopQueue/Policy",
+              "ServiceRole": {
+                "id": "ServiceRole",
+                "path": "CdkWorkshopStack/HelloHandler/ServiceRole",
                 "children": {
                   "Resource": {
                     "id": "Resource",
-                    "path": "CdkWorkshopStack/CdkWorkshopQueue/Policy/Resource",
+                    "path": "CdkWorkshopStack/HelloHandler/ServiceRole/Resource",
                     "attributes": {
-                      "aws:cdk:cloudformation:type": "AWS::SQS::QueuePolicy",
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
                       "aws:cdk:cloudformation:props": {
-                        "policyDocument": {
+                        "assumeRolePolicyDocument": {
                           "Statement": [
                             {
-                              "Action": "sqs:SendMessage",
-                              "Condition": {
-                                "ArnEquals": {
-                                  "aws:SourceArn": {
-                                    "Ref": "CdkWorkshopTopicD368A42F"
-                                  }
-                                }
-                              },
+                              "Action": "sts:AssumeRole",
                               "Effect": "Allow",
                               "Principal": {
-                                "Service": "sns.amazonaws.com"
-                              },
-                              "Resource": {
-                                "Fn::GetAtt": [
-                                  "CdkWorkshopQueue50D9D426",
-                                  "Arn"
-                                ]
+                                "Service": "lambda.amazonaws.com"
                               }
                             }
                           ],
                           "Version": "2012-10-17"
                         },
-                        "queues": [
+                        "managedPolicyArns": [
                           {
-                            "Ref": "CdkWorkshopQueue50D9D426"
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                              ]
+                            ]
                           }
                         ]
                       }
                     },
                     "constructInfo": {
-                      "fqn": "aws-cdk-lib.aws_sqs.CfnQueuePolicy",
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
                       "version": "2.15.0"
                     }
                   }
                 },
                 "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_sqs.QueuePolicy",
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
                   "version": "2.15.0"
                 }
               },
-              "CdkWorkshopStackCdkWorkshopTopicD7BE9643": {
-                "id": "CdkWorkshopStackCdkWorkshopTopicD7BE9643",
-                "path": "CdkWorkshopStack/CdkWorkshopQueue/CdkWorkshopStackCdkWorkshopTopicD7BE9643",
+              "Code": {
+                "id": "Code",
+                "path": "CdkWorkshopStack/HelloHandler/Code",
                 "children": {
-                  "Resource": {
-                    "id": "Resource",
-                    "path": "CdkWorkshopStack/CdkWorkshopQueue/CdkWorkshopStackCdkWorkshopTopicD7BE9643/Resource",
-                    "attributes": {
-                      "aws:cdk:cloudformation:type": "AWS::SNS::Subscription",
-                      "aws:cdk:cloudformation:props": {
-                        "protocol": "sqs",
-                        "topicArn": {
-                          "Ref": "CdkWorkshopTopicD368A42F"
-                        },
-                        "endpoint": {
-                          "Fn::GetAtt": [
-                            "CdkWorkshopQueue50D9D426",
-                            "Arn"
-                          ]
-                        }
-                      }
-                    },
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "CdkWorkshopStack/HelloHandler/Code/Stage",
                     "constructInfo": {
-                      "fqn": "aws-cdk-lib.aws_sns.CfnSubscription",
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "CdkWorkshopStack/HelloHandler/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
                       "version": "2.15.0"
                     }
                   }
                 },
                 "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_sns.Subscription",
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
                   "version": "2.15.0"
                 }
-              }
-            },
-            "constructInfo": {
-              "fqn": "aws-cdk-lib.aws_sqs.Queue",
-              "version": "2.15.0"
-            }
-          },
-          "CdkWorkshopTopic": {
-            "id": "CdkWorkshopTopic",
-            "path": "CdkWorkshopStack/CdkWorkshopTopic",
-            "children": {
+              },
               "Resource": {
                 "id": "Resource",
-                "path": "CdkWorkshopStack/CdkWorkshopTopic/Resource",
+                "path": "CdkWorkshopStack/HelloHandler/Resource",
                 "attributes": {
-                  "aws:cdk:cloudformation:type": "AWS::SNS::Topic",
-                  "aws:cdk:cloudformation:props": {}
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": {
+                        "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                      },
+                      "s3Key": "3ce9e9d890a362f1e799fe57fd82b17dfe8f9ae8b5c9170a469f1cb41e6fcd1a.zip"
+                    },
+                    "role": {
+                      "Fn::GetAtt": [
+                        "HelloHandlerServiceRole11EF7C63",
+                        "Arn"
+                      ]
+                    },
+                    "handler": "hello.handler",
+                    "runtime": "nodejs14.x"
+                  }
                 },
                 "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_sns.CfnTopic",
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
                   "version": "2.15.0"
                 }
               }
             },
             "constructInfo": {
-              "fqn": "aws-cdk-lib.aws_sns.Topic",
+              "fqn": "aws-cdk-lib.aws_lambda.Function",
               "version": "2.15.0"
             }
           },

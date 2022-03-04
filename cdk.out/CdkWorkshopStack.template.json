@@ -1,82 +1,71 @@
 {
   "Resources": {
-    "CdkWorkshopQueue50D9D426": {
-      "Type": "AWS::SQS::Queue",
+    "HelloHandlerServiceRole11EF7C63": {
+      "Type": "AWS::IAM::Role",
       "Properties": {
-        "VisibilityTimeout": 300
-      },
-      "UpdateReplacePolicy": "Delete",
-      "DeletionPolicy": "Delete",
-      "Metadata": {
-        "aws:cdk:path": "CdkWorkshopStack/CdkWorkshopQueue/Resource"
-      }
-    },
-    "CdkWorkshopQueuePolicyAF2494A5": {
-      "Type": "AWS::SQS::QueuePolicy",
-      "Properties": {
-        "PolicyDocument": {
+        "AssumeRolePolicyDocument": {
           "Statement": [
             {
-              "Action": "sqs:SendMessage",
-              "Condition": {
-                "ArnEquals": {
-                  "aws:SourceArn": {
-                    "Ref": "CdkWorkshopTopicD368A42F"
-                  }
-                }
-              },
+              "Action": "sts:AssumeRole",
               "Effect": "Allow",
               "Principal": {
-                "Service": "sns.amazonaws.com"
-              },
-              "Resource": {
-                "Fn::GetAtt": [
-                  "CdkWorkshopQueue50D9D426",
-                  "Arn"
-                ]
+                "Service": "lambda.amazonaws.com"
               }
             }
           ],
           "Version": "2012-10-17"
         },
-        "Queues": [
+        "ManagedPolicyArns": [
           {
-            "Ref": "CdkWorkshopQueue50D9D426"
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
           }
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "CdkWorkshopStack/CdkWorkshopQueue/Policy/Resource"
+        "aws:cdk:path": "CdkWorkshopStack/HelloHandler/ServiceRole/Resource"
       }
     },
-    "CdkWorkshopQueueCdkWorkshopStackCdkWorkshopTopicD7BE96438B5AD106": {
-      "Type": "AWS::SNS::Subscription",
+    "HelloHandler2E4FBA4D": {
+      "Type": "AWS::Lambda::Function",
       "Properties": {
-        "Protocol": "sqs",
-        "TopicArn": {
-          "Ref": "CdkWorkshopTopicD368A42F"
+        "Code": {
+          "S3Bucket": {
+            "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+          },
+          "S3Key": "3ce9e9d890a362f1e799fe57fd82b17dfe8f9ae8b5c9170a469f1cb41e6fcd1a.zip"
         },
-        "Endpoint": {
+        "Role": {
           "Fn::GetAtt": [
-            "CdkWorkshopQueue50D9D426",
+            "HelloHandlerServiceRole11EF7C63",
             "Arn"
           ]
-        }
+        },
+        "Handler": "hello.handler",
+        "Runtime": "nodejs14.x"
       },
+      "DependsOn": [
+        "HelloHandlerServiceRole11EF7C63"
+      ],
       "Metadata": {
-        "aws:cdk:path": "CdkWorkshopStack/CdkWorkshopQueue/CdkWorkshopStackCdkWorkshopTopicD7BE9643/Resource"
-      }
-    },
-    "CdkWorkshopTopicD368A42F": {
-      "Type": "AWS::SNS::Topic",
-      "Metadata": {
-        "aws:cdk:path": "CdkWorkshopStack/CdkWorkshopTopic/Resource"
+        "aws:cdk:path": "CdkWorkshopStack/HelloHandler/Resource",
+        "aws:asset:path": "asset.3ce9e9d890a362f1e799fe57fd82b17dfe8f9ae8b5c9170a469f1cb41e6fcd1a",
+        "aws:asset:is-bundled": false,
+        "aws:asset:property": "Code"
       }
     },
     "CDKMetadata": {
       "Type": "AWS::CDK::Metadata",
       "Properties": {
-        "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WOWwrCMBBF1+J/MlpRN9ANaOu/tEmEaWtSM4kiIXs3DxD8mTn3cGFmD80RdpvhTVzImS84QujdIGaW1C3QkyBcvPKKtXddocyzWVB8frLGyEinfu9HEhZXh0bnxl++mhVFtgVizNgpMt6KcqM1WmJuRqaNVDDR9tWcoDmkLydC5NZrhw8FXd1fRH2XXcEAAAA="
+        "Analytics": "v2:deflate64:H4sIAAAAAAAA/zWOSQ6DMAxFz9J9cEunfUHqAegBkElSZAZHwkm7iLh7E1BXz/6Wn/4ZyhucDviVQpuxmKiD+PKoR5WiNk44dwYhPgNrT45V/eb/vCrCGWLjJpvjzFXJpUUR6wUeGWmHKujR+golnbcw+Xvifnuy4sKiN0Ht2NAuZmcsDHL8lHcor6nfIETFEtjTbKHZ+QNwDfISuwAAAA=="
       },
       "Metadata": {
         "aws:cdk:path": "CdkWorkshopStack/CDKMetadata/Default"

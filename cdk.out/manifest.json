@@ -23,7 +23,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/e823188b4d490f28ce605e03b6090a0d1ea84bca7c22c8b294221a89f32be00d.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/40d3544f56cf1a82588044cb179f9e25784ca8a781749002965c9fdcc3d85e86.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -39,28 +39,16 @@
         "CdkWorkshopStack.assets"
       ],
       "metadata": {
-        "/CdkWorkshopStack/CdkWorkshopQueue/Resource": [
+        "/CdkWorkshopStack/HelloHandler/ServiceRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "CdkWorkshopQueue50D9D426"
+            "data": "HelloHandlerServiceRole11EF7C63"
           }
         ],
-        "/CdkWorkshopStack/CdkWorkshopQueue/Policy/Resource": [
+        "/CdkWorkshopStack/HelloHandler/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "CdkWorkshopQueuePolicyAF2494A5"
-          }
-        ],
-        "/CdkWorkshopStack/CdkWorkshopQueue/CdkWorkshopStackCdkWorkshopTopicD7BE9643/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "CdkWorkshopQueueCdkWorkshopStackCdkWorkshopTopicD7BE96438B5AD106"
-          }
-        ],
-        "/CdkWorkshopStack/CdkWorkshopTopic/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "CdkWorkshopTopicD368A42F"
+            "data": "HelloHandler2E4FBA4D"
           }
         ],
         "/CdkWorkshopStack/CDKMetadata/Default": [
