@@ -1,0 +1,8 @@
+build
+node_modules
+*/**/node_modules/**
+replace-version.js
+.eslintrc.js
+jest.config.js
+webpack.config.js
+babel.config.js
